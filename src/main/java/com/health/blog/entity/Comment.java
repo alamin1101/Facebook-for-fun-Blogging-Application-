@@ -9,7 +9,6 @@ public class Comment {
     @SequenceGenerator(name = "comment_sequence", sequenceName = "comment_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "")
     private int commentId;
-    static int count=1;
     private String comment;
 
     public  Comment()
@@ -17,9 +16,9 @@ public class Comment {
 
     }
     public Comment(String comment) {
-        this.commentId = count++;
         this.comment = comment;
     }
+
 
     public int getCommentId() {
         return commentId;

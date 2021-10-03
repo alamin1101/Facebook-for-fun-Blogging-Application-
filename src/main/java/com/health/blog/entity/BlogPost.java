@@ -61,4 +61,12 @@ public class BlogPost {
     public void setApprove(String approve) {
         this.approve = approve;
     }
+
+    public List<Comment> getAllComment() {
+        return allComment;
+    }
+
+    public void setAllComment(List<Comment> allComment) {
+        this.allComment = allComment;
+    }
 }

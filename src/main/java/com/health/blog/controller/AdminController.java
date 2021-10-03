@@ -37,7 +37,6 @@ public class AdminController {
         AppUser appUser = appUserRepository.findById(username).get();
         appUser.setStatus("Active");
         appUserRepository.save(appUser);
-        System.out.println("dfkgjkdfj");
         model.addAttribute("userslist", appUserRepository.findAllUser());
         return "users-list";
     }

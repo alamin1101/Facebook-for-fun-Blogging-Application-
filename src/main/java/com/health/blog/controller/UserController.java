@@ -6,6 +6,7 @@ import com.health.blog.entity.BlogPost;
 import com.health.blog.entity.Comment;
 import com.health.blog.repository.AppUserRepository;
 import com.health.blog.repository.BlogPostRepository;
+import com.health.blog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -28,7 +30,10 @@ public class UserController {
     private AppUserRepository appUserRepository;
     @Autowired
     private BlogPostRepository blogPostRepository;
-    
+
+    @Autowired
+    private CommentRepository commentRepository;
+
     @GetMapping({"/create-blogpost"})
     public String createBlogPost(Model model)
     {
@@ -41,9 +46,9 @@ public class UserController {
     {
         blogPostRepository.save(blogPost);
         AppUser appUser = appUserRepository.getById(principal.getName());
-        System.out.println(""+appUser.getUsername());
+
         appUser.getBlogPost().add(blogPost);
-        System.out.println(""+appUser.getBlogPost());
+
         appUserRepository.save(appUser);
 
         return "my-post";
@@ -81,10 +86,18 @@ public class UserController {
     }
 
     @GetMapping("/comment")
-    public String comment(Model model,Principal principal,@RequestParam String comment)
+    public String comment(Model model,Principal principal,@RequestParam String comment,@RequestParam int blogPostId)
     {
-        Comment comment=new Comment(comment);
-        return "blog-homepage";
+        Comment comm=new Comment(comment);
+        commentRepository.save(comm);
+        BlogPost blogPost = blogPostRepository.getById(blogPostId);
+
+        blogPost.getAllComment().add(comm);
+
+        blogPostRepository.save(blogPost);
+        model.addAttribute("postlist",blogPostRepository.findAllApprovePost());
+
+        return "redirect:/blog-homepage";
     }
 
 }

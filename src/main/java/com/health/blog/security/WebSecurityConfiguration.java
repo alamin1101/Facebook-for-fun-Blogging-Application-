@@ -36,7 +36,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/adminlist","/userslist","/profile","/profile/settings","/inactive","/delete","/blog-posts","/active","/create-admin","/delete-post","/deactive","/approve")
                 .access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/profile","/profile/settings","/create-blogpost","/my-post","/pending-post","/blog-homepage"
+                .antMatchers("/comment","/profile","/profile/settings","/create-blogpost","/my-post","/pending-post","/blog-homepage"
                 )
                 .access("hasRole('ROLE_USER')")
                 .and()
