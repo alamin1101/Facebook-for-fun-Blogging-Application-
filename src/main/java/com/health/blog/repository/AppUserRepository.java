@@ -18,7 +18,7 @@ public interface AppUserRepository extends JpaRepository<AppUser,String>
     @Query("select new AppUser(b.username,b.email,b.status) from AppUser b WHERE b.role='ROLE_USER' ")
     List<AppUser> findAllUser();
 
-    @Query("select new AppUser(b.username,b.email,b.status) from AppUser b WHERE b.role='ROLE_USER' and (?1 is null or b.username like %?1% or b.email like %?1%)  ")
+    @Query("select new AppUser(b.username,b.email,b.status) from AppUser b WHERE b.role='ROLE_ADMIN' and (?1 is null or b.username like %?1% or b.email like %?1%)  ")
     List<AppUser> findAllAdmin(String s);
 
 }

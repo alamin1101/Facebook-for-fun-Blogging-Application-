@@ -134,7 +134,7 @@ public class AdminController {
 
     @RequestMapping("/adminlist")
     public String adminlist(Model model,@RequestParam(required = false) String s) {
-        AppUser appUser=new AppUser();
+
         model.addAttribute("userslist", appUserRepository.findAllAdmin(s));
         return "admin-list";
     }

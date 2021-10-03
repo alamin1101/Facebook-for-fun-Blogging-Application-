@@ -56,7 +56,7 @@
     <div th:each="element : ${myposts}">
         <div th:if="${element.approve=='true'}">
             <div style="color: blue;font-size: 26px;text-align: center">[[${element.blogPostTitle}]]</div>
-            <div style="color: lightslategray;font-size: 20px;">[[${element.blogpost}]]</div>
+            <div style="color: lightslategray;font-size: 20px;text-align: center">[[${element.blogpost}]]</div>
             <div style="text-align:center ">
                 <a th:href="@{/delete-mypost(blogPostId=${element.blogPostId})}" class="btn btn-danger">Delete Post</a>
             </div>

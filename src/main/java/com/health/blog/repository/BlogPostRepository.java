@@ -14,7 +14,7 @@ public interface BlogPostRepository extends JpaRepository<BlogPost,Integer>
     @Query("delete from BlogPost bb where bb.blogpost=?1")
     void removeBlogPost(BlogPost blogPost);
 
-    @Query("select new BlogPost (b.blogPostId,b.blogPostTitle,b.blogpost) from BlogPost b WHERE b.approve='true' ")
-    List<BlogPost> findAllApprovePost();
+    @Query("select b from BlogPost b WHERE b.approve='true' ")
+    List<BlogPost>findAllApprovePost();
 
 }

@@ -81,7 +81,8 @@ public class UserController {
     @GetMapping("/blog-homepage")
     public String blogHomePage(Model model,Principal principal)
     {
-        model.addAttribute("postlist",blogPostRepository.findAllApprovePost());
+        List<BlogPost> blogPosts = blogPostRepository.findAllApprovePost();
+        model.addAttribute("postlist",blogPosts);
         return "blog-homepage";
     }
 

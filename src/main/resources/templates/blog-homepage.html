@@ -140,7 +140,12 @@
     <div th:each="element : ${postlist}">
 
 
-             <div style="color: lightslategray;font-size: 26px;">[[${element.blogpost}]]</div>
+             <div  style="color: lightslategray;font-size: 26px;"> <h2 style="color: #04AA6D">Post : </h2>[[${element.blogpost}]]</div>
+            <div style="color: firebrick;font-size: 18px">  [[${#lists.size(element.allComment)}]] -Comments</div >
+         <div th:each="elem : ${element.allComment}">
+            <div style="color: blue;font-size: 11px;">[[${elem.comment}]]</div>
+        </div>
+
             <div class="form">
             <form action="/comment" class="form-container">
 
