@@ -86,37 +86,13 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a style="color: azure" class="navbar-brand" href="#">Micro Library        </a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li ><a href="/">Home</a></li>
-            <li><a href="/admin"><i class="fa fa-home"></i>Admin</a></li>
-            <li><a href="/user">User</a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
-        <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
-            <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        </ul>
-        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
-            <li>
-                <a href="/user_reg">
-                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
-                </a>
-            </li>
-        </ul>
 
-    </div>
-</nav>
 
 <div class="signup-form">
-    <form action="/signup/success" th:object="${appUser}" method="post" class="form-horizontal">
+    <form action="/signup" th:object="${appUser}" method="post" class="form-horizontal">
         <div class="col-xs-8 col-xs-offset-4">
             <h2>Sign Up</h2>
-          </div>
+        </div>
         <div class="form-group">
             <label class="control-label col-xs-4">Username</label>
             <div class="col-xs-8">
@@ -129,12 +105,8 @@
                 <input type="email" class="form-control" name="email" th:value="${appUser.email}" required="required" >
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-4">Phone Number</label>
-            <div class="col-xs-8">
-                <input type="tel" class="form-control" name="phone" th:value="${appUser.phone}" required>
-            </div>
-        </div>
+
+        <input type="hidden" name="status" th:value="${appUser.status}">
 
         <div class="form-group">
             <label class="control-label col-xs-4">Password</label>
@@ -151,7 +123,7 @@
         <input type="hidden" name="role" th:value="${appUser.role}">
         <div class="form-group">
             <div class="col-xs-8 col-xs-offset-4">
-               <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
             </div>
         </div>
     </form>

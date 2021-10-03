@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Users List</title>
+    <title>Blogging App</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -12,37 +12,21 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
 
+<nav class="navbar navbar-inverse">
+    <div sec:authorize="hasRole('ROLE_ADMIN')" class="container-fluid">
         <div class="navbar-header">
-            <a style="color: azure" class="navbar-brand" href="#">Micro Library        </a>
+            <a style="color: azure" class="navbar-brand" href="#">Admin Deshboard  </a>
         </div>
 
         <ul class="nav navbar-nav">
-            <li ><a href="/">Home</a></li>
-            <li  class="active" ><a href="/admin/userslist">Users List</a></li>
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Bookself
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/admin/book/category">Category</a></li>
-                    <li><a href="/admin/book/title">Title</a></li>
-                    <li><a href="/admin/bookself">All </a></li>
-                </ul>
-            </li>
+            <li ><a href="/userslist">Users List</a></li>
 
-            <li><a href="/admin/book/add">Add Book</a></li>
-            <li><a href="/admin/book/borrowers">Borrowers List</a></li>
-            <li  class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ordered Book
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li ><a href="/admin/book/orderlist">Orderlist </a></li>
-                    <li><a href="/admin/book/order">New Order</a></li>
-                </ul>
-            </li>
+            <li><a href="/create-admin">Create Admin Account</a></li>
+            <li><a href="/blog-posts">User's BlogPosts</a></li>
+            <li ><a href="/adminlist">Admins List</a></li>
+
         </ul>
 
         <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
@@ -57,9 +41,11 @@
                 </ul>
             </li>
         </ul>
-    </div>
-</nav>
 
+    </div>
+
+
+</nav>
 
 
 
@@ -67,7 +53,7 @@
     <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Users Information :</h2>
 
     <div style="text-align: right;margin-top: 10px;width: border-box">
-        <form action="/admin/userslist">
+        <form action="/userslist">
             <input type="text" placeholder="Search ..." name="s">
             <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
         </form>
@@ -77,9 +63,9 @@
         <tr>
             <th>Username:</th>
             <th>Email:</th>
-            <th>Phone No:</th>
-            <th>Contact:</th>
-            <th>Borrow Books</th>
+            <th>Active Status:</th>
+            <th>Action</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -87,14 +73,21 @@
         <tr  th:each="element : ${userslist}">
             <td> [[${element.username}]]</td>
             <td> [[${element.email}]]</td>
-            <td> [[${element.phone}]]</td>
+            <td style="font-size: 15px;color: blueviolet"> [[${element.status}]]</td>
 
-            <td  sec:authorize="isAuthenticated()" style="text-align: center;width: fit-content">
-                <a href="#" class="btn btn-warning">Contact</a>
+            <td th:if="${element.status=='Active'}" style="text-align:center ">
+
+                    <a th:href="@{/inactive(username=${element.username})}" class="btn btn-primary">Inactive</a>
             </td>
-            <td>
-                <a th:href="@{/admin/borrow/books(user=${element.username})}" class="btn btn-primary">Borrow Books</a>
+            <td th:if="${element.status=='Inactive'}" style="text-align:center ">
+
+                    <a th:href="@{/active(username=${element.username})}" class="btn btn-success">Active</a>
             </td>
+
+            <td  style="text-align:center ">
+                <a th:href="@{/delete(username=${element.username})}" class="btn btn-danger">Delete</a>
+            </td>
+
 
         </tr>
         </tbody>

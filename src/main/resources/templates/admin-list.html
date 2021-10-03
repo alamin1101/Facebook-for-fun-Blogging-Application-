@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Blogging App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-inverse">
+    <div sec:authorize="hasRole('ROLE_ADMIN')" class="container-fluid">
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Admin Deshboard  </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+
+            <li ><a href="/userslist">Users List</a></li>
+
+            <li><a href="/create-admin">Create Admin Account</a></li>
+            <li><a href="/blog-posts">User's BlogPosts</a></li>
+            <li ><a href="/adminlist">Admins List</a></li>
+
+        </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">Users Information :</h2>
+
+    <div style="text-align: right;margin-top: 10px;width: border-box">
+        <form action="/userslist">
+            <input type="text" placeholder="Search ..." name="s">
+            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+    <table class="table table-bordered table-striped" style="margin-top:10px">
+        <thead>
+        <tr>
+            <th>Username:</th>
+            <th>Email:</th>
+            <th>Active Status:</th>
+            <th>Action</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr  th:each="element : ${userslist}">
+            <td> [[${element.username}]]</td>
+            <td> [[${element.email}]]</td>
+            <td style="font-size: 15px;color: blueviolet"> [[${element.status}]]</td>
+
+            <td th:if="${element.status=='Active'}" style="text-align:center ">
+
+                <a th:href="@{/inactive(username=${element.username})}" class="btn btn-primary">Inactive</a>
+            </td>
+            <td th:if="${element.status=='Inactive'}" style="text-align:center ">
+
+                <a th:href="@{/active(username=${element.username})}" class="btn btn-success">Active</a>
+            </td>
+
+            <td  style="text-align:center ">
+                <a th:href="@{/delete(username=${element.username})}" class="btn btn-danger">Delete</a>
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

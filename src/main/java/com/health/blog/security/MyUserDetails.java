@@ -24,7 +24,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return appUser.getPassword();
+        if(appUser.getStatus().equals("Active"))
+            return appUser.getPassword();
+        else
+        {
+            return "-1111-1-1-1-1-1-1-111"+appUser.getPassword()+";ty5643828111----1-1=====--2=]]p[]]\\][p[er[[][]rqwp[e[]]]r[]t[y]";
+        }
     }
 
     @Override

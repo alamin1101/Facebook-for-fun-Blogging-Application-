@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Blogging App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .error-message{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div sec:authorize="hasRole('ROLE_ADMIN')" class="container-fluid">
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Admin Deshboard  </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+
+            <li ><a href="/userslist">Users List</a></li>
+
+            <li><a href="/create-admin">Create Admin Account</a></li>
+            <li><a href="/blog-posts">User's BlogPosts</a></li>
+            <li ><a href="/adminlist">Admins List</a></li>
+
+        </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+
+</nav>
+
+<div class="container">
+    <h2 style="margin-top: 15px; text-align: center;color: blueviolet">List of Blog Posts:</h2>
+    <div style="text-align: right;margin-top: 15px;width: available">
+        <form action="/blog-posts">
+            <input type="text" placeholder="search..." name="s">
+            <button type="submit" style="color: mediumvioletred;background-color: darkgray"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+
+    <table class="table table-bordered table-striped" style="margin-top:7px">
+        <thead>
+        <tr>
+            <th>Blog Post ID:</th>
+            <th>Blog Post Title:</th>
+            <th>Blog Post</th>
+            <th>Approve/Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="element : ${blogposts}">
+
+
+            <td> [[${element.blogPostId}]]</td>
+            <td> [[${element.blogPostTitle}]]</td>
+            <td> [[${element.blogpost}]]</td>
+
+            <td th:if="${element.approve=='false'}" style="text-align:center ">
+
+                <a th:href="@{/approve(blogPostId=${element.blogPostId})}" class="btn btn-success">Approve</a>
+            </td>
+            <td th:if="${element.approve=='true'}" style="text-align:center ">
+
+                <a th:href="@{/deactive(blogPostId=${element.blogPostId})}" class="btn btn-warning">Deactive</a>
+            </td>
+
+            <td  style="text-align:center ">
+                <a th:href="@{/delete-post(blogPostId=${element.blogPostId})}" class="btn btn-danger">Delete Post</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

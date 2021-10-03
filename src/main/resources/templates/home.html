@@ -3,7 +3,8 @@
 <html lang="en" >
 <head>
 
-    <title>Home Page</title>
+
+    <title>Blogging app</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -11,9 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
 
     <style>
         * {
@@ -50,17 +48,77 @@
 </head>
 <body>
 
+
 <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+    <div sec:authorize="hasRole('ROLE_ADMIN')" class="container-fluid">
         <div class="navbar-header">
-            <a style="color: azure" class="navbar-brand" href="/">Health Blog        </a>
+            <a style="color: azure" class="navbar-brand" href="#">Admin Deshboard  </a>
         </div>
+
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/my-home">Home Page</a></li>
-            <li><a href="/my-blog-post"></a>My Account</li>
-            <li><a href="/my-notifications">Notifications</a></li>
-            <li><a href="/about">About</a></li>
+
+            <li ><a href="/userslist">Users List</a></li>
+
+            <li><a href="/create-admin">Create Admin Account</a></li>
+            <li><a href="/blog-posts">User's BlogPosts</a></li>
+            <li ><a href="/adminlist">Admins List</a></li>
+
         </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+
+
+    <div sec:authorize="hasRole('ROLE_USER')" class="container-fluid">
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Blogging app</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+
+            <li ><a href="/blog-homepage">Approve All BlogPost </a></li>
+
+            <li><a href="/create-blogpost">Create new BlogPost</a></li>
+            <li><a href="/my-post">My Approve Post</a></li>
+            <li><a href="/pending-post"> My Pending Post</a></li>
+
+        </ul>
+
+        <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"  sec:authentication="name"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/settings">Settings</a></li>
+                    <li><a href="/logout">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+
+
+
+    <div sec:authorize="!isAuthenticated()" class="container-fluid">
+        <div class="navbar-header">
+            <a style="color: azure" class="navbar-brand" href="#">Blogging app</a>
+        </div>
+
         <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
             <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -79,19 +137,12 @@
         </ul>
 
     </div>
+
 </nav>
 
-    <div class="container">
-        <img src="library.jpg" alt="Notebook" style="width: 100%;height: 90%">
-        <div class="content">
-            <center>
-                <h1 style="color: fuchsia"><b>Welcome to Micro Library System</b></h1>
-                <h3 style="color: white">Number of Users: [[${users}]]</h3>
-                <h3 style="color: dodgerblue">Number of Books: [[${books}]]</h3>
-                <h3 style="color: white">Number of Available Books: [[${a_books}]]</h3>
-            </center>
-        </div>
-    </div>
+<div class="container">
+   welcome to this system
+</div>
 
 </body>
 </html>
